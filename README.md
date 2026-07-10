@@ -19,15 +19,30 @@ The repository also bundles the dependency-free Learn plugin used for proposal-o
 The installer:
 
 1. Rejects Codex versions older than 0.144.0.
-2. Registers this checkout as the `codex-fleet` local marketplace.
-3. Installs `learn@codex-fleet`.
-4. Runs `prompts/configure-fleet.md` through an ephemeral `codex exec` session.
-5. Asks Codex to analyze local history and safely merge the resulting fleet into the active `CODEX_HOME`.
+2. Lets an interactive terminal select five components: Learn, history cache,
+   multi-agent features, specialist agents, and the reviewed learning pipeline.
+3. Resolves component dependencies and runs one bounded Codex runbook per
+   selected phase.
+4. Reuses the versioned, sanitized history cache unless `--refresh-analysis`
+   is requested.
+5. Records only fleet-owned features and roles so uninstall can preserve
+   unrelated Codex configuration.
 
-Installation is quiet by default. A five-step checklist shows the active step as
-`[~] ... (loading)` while detailed Codex progress is captured in a private log
-under `$CODEX_HOME/log/`. On success, the installer prints the configured-agent
-table from `$CODEX_HOME/agents/FLEET.md`.
+Installation is quiet by default. A seven-step checklist animates the active
+step while detailed Codex progress is captured in a private run directory under
+`$CODEX_HOME/log/`. On success, the installer prints the configured-agent table
+from `$CODEX_HOME/agents/FLEET.md`.
+
+For scripts and other non-interactive callers, installation defaults to all
+components. Select an explicit subset with component IDs:
+
+```sh
+./install.sh --components agents
+./install.sh --components learn,learning
+```
+
+Dependencies are added automatically: `agents` requires `history` and
+`features`; `learning` requires `learn` and `agents`.
 
 If Learn is already installed from another marketplace:
 
@@ -40,6 +55,23 @@ Inspect actions without modifying anything:
 ```sh
 ./install.sh --dry-run
 ```
+
+Force a fresh history analysis:
+
+```sh
+./install.sh --refresh-analysis
+```
+
+Remove selected components in reverse dependency order:
+
+```sh
+./install.sh --uninstall --components features
+./install.sh --uninstall --components learn
+```
+
+Non-interactive uninstall always requires `--components`. Removing a dependency
+also removes fleet-owned dependents; ownership state prevents the runbooks from
+removing pre-existing roles, features, or unrelated guidance.
 
 Install only Learn:
 
@@ -86,5 +118,5 @@ explicit selection.
 |-- .agents/plugins/marketplace.json
 |-- install.sh
 |-- plugins/learn/
-`-- prompts/configure-fleet.md
+`-- prompts/runbooks/
 ```
