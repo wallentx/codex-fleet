@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lint Learning"
+  short_description: "Audit guidance health, duplicates, conflicts, and vague rules."
+  default_prompt: "/lint-learning"

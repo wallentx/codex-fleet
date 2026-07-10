@@ -1,0 +1,4 @@
+interface:
+  display_name: "Learn"
+  short_description: "Analyze recent sessions and propose durable Codex guidance."
+  default_prompt: "/learn"

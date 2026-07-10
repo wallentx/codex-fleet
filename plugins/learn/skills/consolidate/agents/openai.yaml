@@ -1,0 +1,4 @@
+interface:
+  display_name: "Consolidate"
+  short_description: "Merge redundant guidance into lower-token rules."
+  default_prompt: "/consolidate"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Forget"
+  short_description: "Propose deletion of stale or contradictory guidance."
+  default_prompt: "/forget"

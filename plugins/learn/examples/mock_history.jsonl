@@ -1,0 +1,5 @@
+{"role":"user","content":"Never use grep in this repository; always use rg because it is faster and matches our workflow."}
+{"role":"assistant","content":"```bash\nbuild-docker staging\nterraform plan -out staging.plan\nterraform apply staging.plan\n```"}
+{"role":"user","content":"That worked. For future staging deploys, run build-docker, then terraform plan, then terraform apply."}
+{"role":"user","content":"This dev container does not support sudo commands."}
+{"role":"user","content":"Temporary debug print(\"here\") fixed line 42 for now."}

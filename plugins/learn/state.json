@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "processed_sessions": {},
+  "processed_item_hashes": {},
+  "ignored_patterns": {},
+  "applied_items": {},
+  "notes": "Runtime state is written to .codex/learn/state.json in the repository being learned from. This file documents the schema shipped with the plugin."
+}

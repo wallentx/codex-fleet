@@ -1,0 +1,30 @@
+name: learn
+version: 0.1.0+codex.fleet-20260710
+description: Codex learning workflows that propose reusable rules and skills from recent sessions.
+author: Local developer
+license: MIT
+skills: ./skills
+templates: ./templates
+commands:
+  - name: /learn
+    skill: learn
+    description: Analyze session history and write learning_proposal.md without editing guidance.
+  - name: /apply-learning
+    skill: apply-learning
+    description: Apply selected items from learning_proposal.md with backups and git staging.
+  - name: /forget
+    skill: forget
+    description: Propose deletion of stale, duplicate, or contradictory guidance.
+  - name: /consolidate
+    skill: consolidate
+    description: Merge overlapping guidance into lower-token rules.
+  - name: /lint-learning
+    skill: lint-learning
+    description: Audit active guidance health.
+state:
+  default_path: .codex/learn/state.json
+  schema: 1
+guardrails:
+  proposal_only_by_default: true
+  secret_detection: regex_and_entropy
+  apply_requires_explicit_selection: true

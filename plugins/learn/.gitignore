@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.codex/learn/backups/
+/learning_proposal.md
+/learning_forget_proposal.md
+/learning_consolidation_proposal.md
+/learning_lint_report.md
+.codegraph/

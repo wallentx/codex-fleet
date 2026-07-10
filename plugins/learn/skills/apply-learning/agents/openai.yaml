@@ -1,0 +1,4 @@
+interface:
+  display_name: "Apply Learning"
+  short_description: "Apply selected learning proposals with backups and git staging."
+  default_prompt: "/apply-learning"

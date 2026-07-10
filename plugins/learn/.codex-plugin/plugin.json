@@ -1,0 +1,34 @@
+{
+  "name": "learn",
+  "version": "0.1.0+codex.fleet-20260710",
+  "description": "Codex learning workflows that propose reusable rules and skills from recent sessions.",
+  "author": {
+    "name": "Local developer"
+  },
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "learning",
+    "rules",
+    "skills",
+    "guidance"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Learn",
+    "shortDescription": "Propose and apply durable Codex guidance from recent sessions.",
+    "longDescription": "Learn adds Claude Code style /learn workflows to Codex. It analyzes recent conversations, filters secrets and transient state, deduplicates against existing guidance, writes markdown proposals, and applies selected changes only after explicit approval.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "brandColor": "#2563EB",
+    "defaultPrompt": [
+      "/learn",
+      "/apply-learning",
+      "/lint-learning"
+    ]
+  }
+}
