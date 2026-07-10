@@ -1,6 +1,6 @@
 # learn
 
-`learn` is a Codex CLI plugin that brings a `/learn` style workflow to Codex. It analyzes recent sessions, proposes durable rules or skills, and keeps persistent guidance untouched until the user explicitly applies selected items.
+`learn` is a Codex CLI plugin that brings a `$learn` workflow to Codex. It analyzes recent sessions, proposes durable rules or skills, and keeps persistent guidance untouched until the user explicitly applies selected items.
 
 ## Install
 
@@ -17,7 +17,7 @@ python3 scripts/learn.py apply-learning --proposal learning_proposal.md --root e
 
 ## Workflows
 
-### `/learn`
+### `$learn`
 
 Runs the `learn` skill. It reads session history from stdin, `--file`, or recent Codex history locations, then writes `learning_proposal.md` in the current directory.
 
@@ -30,7 +30,7 @@ It classifies observations as:
 
 The command writes runtime state to `.codex/learn/state.json` so re-running on the same session produces a zero-change proposal. It does not edit `AGENTS.md`, `SKILL.md`, or other guidance files.
 
-### `/apply-learning`
+### `$apply-learning`
 
 Reads `learning_proposal.md`, lets the user apply everything, selected classifications, or individual item IDs, then:
 
@@ -39,15 +39,15 @@ Reads `learning_proposal.md`, lets the user apply everything, selected classific
 - edits only selected target files,
 - stages changed files with `git add` for review.
 
-### `/forget`
+### `$forget`
 
 Audits active guidance and writes a deletion/deprecation proposal for stale, contradictory, or session-specific rules.
 
-### `/consolidate`
+### `$consolidate`
 
 Finds overlapping guidance and proposes lower-token replacements.
 
-### `/lint-learning`
+### `$lint-learning`
 
 Writes a markdown health report for duplicate rules, conflicts, vague instructions, and skills missing examples.
 
@@ -65,7 +65,7 @@ All commands accept `--root PATH` to operate on a repository other than the curr
 
 ## Safety Model
 
-- Proposal-only by default: `/learn`, `/forget`, and `/consolidate` generate markdown proposals.
+- Proposal-only by default: `$learn`, `$forget`, and `$consolidate` generate markdown proposals.
 - Secret filters run before proposal writing and again on the final proposal body.
 - `apply-learning` is the only workflow that edits guidance files.
 - Applying changes requires an explicit selection mode: `--all`, `--classification`, `--item`, or interactive prompts.

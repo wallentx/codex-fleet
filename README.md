@@ -24,6 +24,11 @@ The installer:
 4. Runs `prompts/configure-fleet.md` through an ephemeral `codex exec` session.
 5. Asks Codex to analyze local history and safely merge the resulting fleet into the active `CODEX_HOME`.
 
+Installation is quiet by default. A five-step checklist shows the active step as
+`[~] ... (loading)` while detailed Codex progress is captured in a private log
+under `$CODEX_HOME/log/`. On success, the installer prints the configured-agent
+table from `$CODEX_HOME/agents/FLEET.md`.
+
 If Learn is already installed from another marketplace:
 
 ```sh
@@ -58,15 +63,21 @@ Start a new Codex thread after installation. Plugin skills and the generated age
 
 ## Bundled Learn workflows
 
-Invoke installed skills through their actual skill names:
+Start a fresh Codex thread in the repository you want to learn from, then invoke
+the installed skills through their actual names:
 
-- `$learn`
-- `$apply-learning`
-- `$forget`
-- `$consolidate`
-- `$lint-learning`
+1. Run `$learn Analyze recent work in this repository.` after substantial work.
+   It writes `learning_proposal.md` without changing persistent guidance.
+2. Review the proposal. Non-empty proposals should pass through
+   `learning_auditor` and `learning_reviewer`.
+3. Explicitly approve only the item IDs you want, then run
+   `$apply-learning Apply only L-... from learning_proposal.md.`
 
-Learn remains proposal-only by default. Persistent guidance changes require the separate apply workflow and explicit selection.
+Applied changes are backed up under `.codex/learn/backups/` and staged for
+review. Use `$lint-learning` to audit guidance health, `$forget` to propose stale
+guidance removal, and `$consolidate` to propose merging overlapping guidance.
+Learn remains proposal-only until the separate apply workflow receives an
+explicit selection.
 
 ## Repository layout
 
@@ -77,4 +88,3 @@ Learn remains proposal-only by default. Persistent guidance changes require the 
 |-- plugins/learn/
 `-- prompts/configure-fleet.md
 ```
-

@@ -124,6 +124,15 @@ Rules:
 - Do not disable anything unless it directly conflicts with multi-agent operation and the conflict is verified.
 - If `multi_agent_v2` is unavailable, configure the strongest supported `multi_agent` fallback and clearly report the limitation.
 
+Before enabling `multi_agent_v2`:
+
+1. Inspect the active `[agents]` table for `max_threads`.
+2. If `agents.max_threads` is present, back up `config.toml`, remove only that key, and validate that the config still parses.
+3. Verify `agents.max_threads` is absent from the effective configuration.
+4. Only then run `codex features enable multi_agent_v2`.
+
+Never enable `multi_agent_v2` while `agents.max_threads` is configured. If the key cannot be safely removed and verified absent, stop without enabling v2 and report the blocker.
+
 Core multi-agent candidates:
 
 - `multi_agent`
@@ -240,7 +249,7 @@ Configure general agent limits when supported by this version:
 
 - Prefer `max_depth = 2`.
 - Prefer `job_max_runtime_seconds = 1800`.
-- Set `max_threads` only if the current schema accepts it with the selected multi-agent version.
+- Never set `max_threads` when `multi_agent_v2` is enabled or planned. Consider it only for the legacy `multi_agent` fallback after verifying that version's schema accepts it.
 - Choose a conservative concurrency limit based on device resources and workload; avoid unlimited fanout on constrained devices.
 
 ## Phase 6: Continuous-improvement pipeline
@@ -302,6 +311,16 @@ Write `$CODEX_HOME/agents/FLEET.md` containing:
 
 Do not include raw session text, secrets, private repository content, or credentials.
 
+The role table must use this exact machine-readable contract, with exactly one row for every active `[agents.<role_name>]` declaration and no extra content inside the markers:
+
+```markdown
+<!-- codex-fleet:roles:start -->
+| Role | Model | Provider | Effort | Sandbox | Purpose |
+| --- | --- | --- | --- | --- | --- |
+| `<role_name>` | `<model>` | `<provider>` | `<effort>` | `<sandbox>` | <concise purpose> |
+<!-- codex-fleet:roles:end -->
+```
+
 ## Phase 8: Validate
 
 Run:
@@ -316,6 +335,8 @@ Run:
 - Checks for malformed or ignored agent-role warnings
 - Checks for duplicate role names and duplicate TOML tables
 - Checks that removed/deprecated feature keys were not newly enabled
+- A hard compatibility check that fails if `features.multi_agent_v2 = true` and `agents.max_threads` are both present
+- Checks that the delimited `FLEET.md` role table exists and has exactly one row for every declared role
 
 If collaboration tools are already active, ask an independent reviewer agent to inspect the proposed fleet for overlap, missing workload categories, excessive cost, unsafe permissions, unsupported models, and ambiguous descriptions. Apply only verified corrections.
 
